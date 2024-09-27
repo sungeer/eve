@@ -19,28 +19,22 @@ def register_blueprints(app):
 
 
 def register_errors(app):
+    from werkzeug.exceptions import HTTPException
+
     from pulasan.utils.log_util import logger
     from pulasan.utils.tools import abort
+    from pulasan.utils import constants
 
-    @app.errorhandler(400)
-    def bad_request(e):
-        return abort(10107, 'Invalid request.')
-
-    @app.errorhandler(403)
-    def bad_request(e):
-        return abort(10103, 'Access forbidden.')
-
-    @app.errorhandler(404)
-    def page_not_found(e):
-        return abort(10104, 'The requested URL was not found on the server.')
-
-    @app.errorhandler(405)
-    def page_not_found(e):
-        return abort(10105, 'The method is not allowed for the requested URL.')
+    @app.errorhandler(HTTPException)
+    async def http_exception_handler(exc):
+        http_code = exc.code
+        message = constants.http_map.get(http_code, exc.description)
+        error_code = constants.error_map.get(http_code, http_code)
+        return abort(error_code, message)
 
     @app.errorhandler(500)
-    def internal_server_error(e):
-        return abort(60600, 'An internal server error occurred.')
+    async def internal_server_error(exc):
+        return abort(70700, 'An internal server error occurred.')
 
 
 app = create_app()

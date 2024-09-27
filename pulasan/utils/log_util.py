@@ -16,7 +16,7 @@ def create_file_handler():
     basedir = settings.basedir
     log_dir = os.path.join(basedir, 'logs')
     os.makedirs(log_dir, exist_ok=True)
-    log_file = os.path.join(log_dir, 'viper.log')
+    log_file = os.path.join(log_dir, 'pulasan.log')
     file_handler = RotatingFileHandler(log_file, maxBytes=10 * 1024 * 1024, backupCount=10, encoding='utf-8')
     return file_handler
 

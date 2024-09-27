@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class ErrorCode(Enum):
+class ErrorEnum(Enum):
     # 通用错误 (模块代码 10)
     PARAMETER_MISSING = 10100  # '参数缺失'
     PARAMETER_FORMAT_ERROR = 10101  # '参数格式错误'
