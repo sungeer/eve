@@ -6,7 +6,17 @@ from decimal import Decimal
 
 from quart import Response
 
-from pulasan.utils.response_schema import ResponseSchema
+
+class BaseResponse:
+
+    def __init__(self):
+        self.status = True
+        self.error_code = None
+        self.message = None
+        self.data = None
+
+    def to_dict(self):
+        return self.__dict__
 
 
 class JsonExtendEncoder(json.JSONEncoder):
@@ -30,14 +40,14 @@ def jsonify(*args, **kwargs):
         content = args[0]
     else:
         content = args or kwargs
-    response = ResponseSchema()
+    response = BaseResponse()
     response.data = content
     response = response.to_dict()
     return Response(json.dumps(response, cls=JsonExtendEncoder), mimetype='application/json')
 
 
 def abort(error_code, message):
-    response = ResponseSchema()
+    response = BaseResponse()
     response.status = False
     response.error_code = error_code
     response.message = message

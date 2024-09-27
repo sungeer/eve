@@ -1,4 +1,5 @@
 from quart import Quart
+from werkzeug.http import HTTP_STATUS_CODES
 
 from pulasan.configs import settings
 
@@ -19,22 +20,15 @@ def register_blueprints(app):
 
 
 def register_errors(app):
-    from werkzeug.exceptions import HTTPException
-
     from pulasan.utils.log_util import logger
     from pulasan.utils.tools import abort
-    from pulasan.utils import constants
 
-    @app.errorhandler(HTTPException)
-    async def http_exception_handler(exc):
-        http_code = exc.code
-        message = constants.http_map.get(http_code, exc.description)
-        error_code = constants.error_map.get(http_code, http_code)
-        return abort(error_code, message)
-
-    @app.errorhandler(500)
-    async def internal_server_error(exc):
-        return abort(70700, 'An internal server error occurred.')
+    @app.errorhandler(Exception)
+    async def global_exception_handler(error):
+        http_code = getattr(error, 'code', 500)
+        message = HTTP_STATUS_CODES.get(http_code, str(error))
+        logger.exception(error)
+        return abort(http_code, message)
 
 
 app = create_app()
