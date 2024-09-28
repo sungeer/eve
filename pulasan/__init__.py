@@ -1,5 +1,5 @@
 from quart import Quart
-from werkzeug.http import HTTP_STATUS_CODES
+from werkzeug.exceptions import HTTPException
 
 from pulasan.configs import settings
 
@@ -23,12 +23,17 @@ def register_errors(app):
     from pulasan.utils.log_util import logger
     from pulasan.utils.tools import abort
 
+    @app.errorhandler(HTTPException)
+    async def http_exception_handler(error):
+        # error_code = getattr(error, 'code', 500)
+        # message = HTTP_STATUS_CODES.get(error_code, str(error))
+        # error_code = error.code
+        return abort(error.code)
+
     @app.errorhandler(Exception)
     async def global_exception_handler(error):
-        http_code = getattr(error, 'code', 500)
-        message = HTTP_STATUS_CODES.get(http_code, str(error))
         logger.exception(error)
-        return abort(http_code, message)
+        return abort(500)
 
 
 app = create_app()

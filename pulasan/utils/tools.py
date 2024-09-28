@@ -5,6 +5,7 @@ from datetime import datetime, date
 from decimal import Decimal
 
 from quart import Response
+from werkzeug.http import HTTP_STATUS_CODES
 
 
 class BaseResponse:
@@ -46,7 +47,9 @@ def jsonify(*args, **kwargs):
     return Response(json.dumps(response, cls=JsonExtendEncoder), mimetype='application/json')
 
 
-def abort(error_code, message):
+def abort(error_code, message=None):
+    if not message:
+        message = HTTP_STATUS_CODES.get(error_code)
     response = BaseResponse()
     response.status = False
     response.error_code = error_code
