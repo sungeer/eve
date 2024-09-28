@@ -9,6 +9,7 @@ def create_app():
 
     register_blueprints(app)
     register_errors(app)
+    register_events(app)
     return app
 
 
@@ -34,6 +35,24 @@ def register_errors(app):
     async def global_exception_handler(error):
         logger.exception(error)
         return abort(500)
+
+
+def register_events(app):
+    from pulasan.utils.db_util import db
+
+    @app.before_serving
+    async def startup():
+        await db.connect()
+
+    @app.after_serving
+    async def shutdown():
+        await db.disconnect()
+
+        from pulasan.utils import http_client
+        await http_client.close_httpx()
+
+        from pulasan.utils.log_util import stop_logger
+        stop_logger()
 
 
 app = create_app()
