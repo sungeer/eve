@@ -77,3 +77,7 @@ def generate_uuid():
     md5 = hashlib.md5()
     md5.update(random_uuid.encode('utf-8'))
     return md5.hexdigest().lower()
+
+
+def current_time():
+    return datetime.now()
