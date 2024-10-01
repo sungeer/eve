@@ -51,8 +51,5 @@ def register_events(app):
         from pulasan.utils import http_client
         await http_client.close_httpx()
 
-        from pulasan.utils.log_util import stop_logger
-        stop_logger()
-
 
 app = create_app()

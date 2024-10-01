@@ -11,7 +11,9 @@ def log4p(func_name):
         @wraps(func)
         async def wrapper(self, *args, **kwargs):
             if app_env == 'dev':
-                getattr(logger, func_name)(*args, **kwargs)
+                log_func = getattr(logger, func_name, None)
+                if callable(log_func):  # 对象是否可调用
+                    log_func(*args, **kwargs)
             return await func(self, *args, **kwargs)
         return wrapper
     return decorator
