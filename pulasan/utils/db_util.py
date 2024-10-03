@@ -25,6 +25,15 @@ class BaseDB:
         return cls._pool
 
     @classmethod
+    async def acquire(cls):
+        conn = await cls._pool.acquire()
+        return conn
+
+    @classmethod
+    async def release(cls, conn):
+        cls._pool.release(conn)
+
+    @classmethod
     async def disconnect(cls):
         if cls._pool is not None:
             cls._pool.close()
@@ -37,9 +46,3 @@ class BaseDB:
 
 
 db = BaseDB()
-
-
-async def creat_db_pool():
-    if db.pool is None:
-        await db.connect()
-    return db.pool

@@ -1,4 +1,4 @@
-from pulasan.utils.db_util import creat_db_pool
+from pulasan.utils.db_util import db
 
 
 class BaseModel:
@@ -6,14 +6,11 @@ class BaseModel:
     def __init__(self):
         self._conn = None
         self.cursor = None
-        self._db_pool = None
 
     async def conn(self):
         if not self.cursor:
             if not self._conn:
-                if self._db_pool is None:
-                    self._db_pool = await creat_db_pool()
-                self._conn = await self._db_pool.acquire()  # 获取连接
+                self._conn = await db.acquire()  # 获取连接
             self.cursor = await self._conn.cursor()  # 获取游标
 
     async def rollback(self):
@@ -27,7 +24,7 @@ class BaseModel:
                 if self.cursor:
                     await self.cursor.execute('UNLOCK TABLES;')
                     await self.cursor.close()  # 关闭游标
-                await self._db_pool.release(self._conn)  # 连接放回连接池
+                await db.release(self._conn)  # 连接放回连接池
         except Exception as exc:
             raise Exception(f'db close failed:{exc}')
         finally:
