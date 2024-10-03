@@ -16,8 +16,8 @@ class BaseDB:
                 db=settings.db_name,
                 user=settings.db_user,
                 password=settings.db_pass,  # cipher.decrypt(settings.db_pass)
-                minsize=settings.db_pool_size,
-                maxsize=settings.db_max_overflow,
+                minsize=settings.db_pool_size,  # 初始化时创建的最小连接数
+                maxsize=settings.db_max_overflow,  # 连接池中可同时存在的最大连接数
                 pool_recycle=1800,
                 charset='utf8mb4',
                 cursorclass=aiomysql.DictCursor
