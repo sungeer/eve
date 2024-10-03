@@ -21,7 +21,7 @@ def register_blueprints(app):
 
 
 def register_errors(app):
-    from pulasan.models.log_model import logger
+    from pulasan.models.log_model import LogModel
     from pulasan.utils.tools import abort
 
     @app.errorhandler(HTTPException)
@@ -33,7 +33,7 @@ def register_errors(app):
 
     @app.errorhandler(Exception)
     async def global_exception_handler(error):
-        await logger.exception(error)
+        await LogModel().exception(error)
         return abort(500)
 
 

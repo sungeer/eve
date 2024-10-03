@@ -56,9 +56,6 @@ class LogModel(BaseModel):
         return await self.add_log('ERROR', tb_str)
 
 
-logger = LogModel()
-
-
 if __name__ == '__main__':
     try:
         pass
