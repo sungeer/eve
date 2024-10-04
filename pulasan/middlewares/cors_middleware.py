@@ -4,6 +4,12 @@ from pulasan.utils.tools import jsonify
 
 
 class CorsMiddleware:
+    """
+    使用 allow_credentials 可以控制是否允许跨域请求发送凭证
+    在开启凭证支持时，确保 Access-Control-Allow-Origin 明确指定允许的来源，不能使用通配符 *
+    即 ['https://example.com', 'https://anotherdomain.com']
+    """
+
     def __init__(self, allow_origins=None, allow_methods=None, allow_headers=None, allow_credentials=False):
         self.app = None
         self.allow_origins = allow_origins or ['*']
