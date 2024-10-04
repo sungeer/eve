@@ -10,6 +10,7 @@ def create_app():
     register_blueprints(app)
     register_errors(app)
     register_events(app)
+    register_middlewares(app)
     return app
 
 
@@ -51,6 +52,12 @@ def register_events(app):
 
         from pulasan.utils import http_client
         await http_client.close_httpx()
+
+
+def register_middlewares(app):
+    from pulasan.middlewares import cors_middleware
+
+    cors_middleware.init_app(app)
 
 
 app = create_app()

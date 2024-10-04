@@ -1,8 +1,7 @@
 from quart import request
 
 from pulasan.models.log_model import LogModel
-from pulasan.utils.tools import jsonify, abort
-from pulasan.utils import jwt_util
+from pulasan.utils.tools import jsonify
 
 
 async def get_logs():
