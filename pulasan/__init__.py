@@ -14,10 +14,11 @@ def create_app():
 
 
 def register_blueprints(app):
-    from pulasan.urls import user_url, chat_url
+    from pulasan.urls import user_url, chat_url, admin_url
 
     app.register_blueprint(chat_url.chat_url)
     app.register_blueprint(user_url.user_url, url_prefix='/user')
+    app.register_blueprint(admin_url.admin_url, url_prefix='/admin')
 
 
 def register_errors(app):

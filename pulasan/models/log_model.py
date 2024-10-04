@@ -1,11 +1,48 @@
 import traceback
 
 from pulasan.models.base_model import BaseModel
-from pulasan.utils import tools
+from pulasan.utils import tools, common
 from pulasan.utils.decorators import log4p
 
 
 class LogModel(BaseModel):
+
+    async def get_logs(self, page, per_page, start_date, end_date, level):
+        sql_str = '''
+            SELECT 
+                ID, Level, Message, CreatedTime
+            FROM 
+                logs
+            WHERE 
+                1 = %s 
+        '''
+        where_values = [1, ]
+        if end_date and start_date:
+            where_str = ' AND CreatedTime BETWEEN %s AND %s '
+            sql_str += where_str
+            where_values.extend([start_date, end_date])
+        else:
+            where_str = ' AND CreatedTime BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 1 DAY) '
+            sql_str += where_str
+        if level:
+            where_str = ' AND Level = %s '
+            sql_str += where_str
+            where_values.append(level)
+        total_str = common.parse_count_str(sql_str, truncate=True)
+        await self.conn()
+        await self.execute(total_str, where_values)
+        total = await self.cursor.fetchone()
+        total = total['total']
+        offset = (page - 1) * per_page
+        limit_str = ' ORDER BY ID DESC LIMIT %s OFFSET %s '
+        sql_str += limit_str
+        where_values.extend([per_page, offset])
+        await self.execute(sql_str, where_values)
+        logs = await self.cursor.fetchall()
+        await self.close()
+        page_info = common.get_page_info(total, page, per_page)
+        page_info.update({'data': logs})
+        return page_info
 
     async def add_log(self, level, message):
         sql_str = '''
@@ -60,4 +97,4 @@ if __name__ == '__main__':
     try:
         pass
     except Exception as exc:
-        logger.error(f'websocket error occurred: {exc}', exc_info=exc)  # exc_info=True
+        LogModel().error(f'websocket error occurred: {exc}', exc_info=exc)  # exc_info=True
