@@ -39,18 +39,26 @@ async def verify_token(request):
     if authorization_header and authorization_header.startswith('Bearer '):
         jwt_token = authorization_header[len('Bearer '):]
         if not jwt_token:
-            return None, 'token is missing'
+            await LogModel().warning('Token is empty.')
+            return None, 400
     else:
-        return None, 'Authorization header is missing or does not contain a Bearer token'
+        await LogModel().warning('Authorization header is missing or does not start with Bearer.')
+        return None, 400
+
     try:
         user_id = extract_uid(jwt_token)
-    except (ExpiredSignatureError,):
-        return None, 'token has expired'
-    except (InvalidTokenError,):
-        return None, 'invalid token'
-    except Exception as e:
-        await LogModel().error(f'token verification error: {str(e)}')
-        return None, 'token verification error'
+    except ExpiredSignatureError:
+        await LogModel().warning('Token has expired.')
+        return None, 401
+    except InvalidTokenError:
+        await LogModel().warning('Token is invalid.')
+        return None, 401
+    except Exception as exc:
+        await LogModel().error(f'Unexpected error: {exc}.')
+        return None, 500
+
     if not user_id:
-        return None, 'user does not exist'
-    return user_id, None
+        await LogModel().warning('User ID not found.')
+        return None, 404
+
+    return user_id, 200
