@@ -17,3 +17,7 @@ async def get_logs():
         end_date += ' 23:59:59'
     logs = await LogModel().get_logs(page, per_page, start_date, end_date, level)
     return jsonify(logs)
+
+
+async def get_logs_like_str():
+    pass
