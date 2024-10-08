@@ -5,7 +5,7 @@ import jwt  # python -m pip install pyjwt
 from jwt.exceptions import ExpiredSignatureError, InvalidTokenError
 
 from pulasan.configs import settings
-from pulasan.models.log_model import LogModel
+from pulasan.utils.log_util import logger
 
 
 def set_password(password):
@@ -39,26 +39,26 @@ async def verify_token(request):
     if authorization_header and authorization_header.startswith('Bearer '):
         jwt_token = authorization_header[len('Bearer '):]
         if not jwt_token:
-            await LogModel().warning('Token is empty.')
+            logger.warning('Token is empty.')
             return None, 400
     else:
-        await LogModel().warning('Authorization header is missing or does not start with Bearer.')
+        logger.warning('Authorization header is missing or does not start with Bearer.')
         return None, 400
 
     try:
         user_id = extract_uid(jwt_token)
     except ExpiredSignatureError:
-        await LogModel().warning('Token has expired.')
+        logger.warning('Token has expired.')
         return None, 401
     except InvalidTokenError:
-        await LogModel().warning('Token is invalid.')
+        logger.warning('Token is invalid.')
         return None, 401
     except Exception as exc:
-        await LogModel().error(f'Unexpected error: {exc}.')
+        logger.error(f'Unexpected error: {exc}.')
         return None, 500
 
     if not user_id:
-        await LogModel().warning('User ID not found.')
+        logger.warning('User ID not found.')
         return None, 404
 
     return user_id, 200

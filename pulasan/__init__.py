@@ -36,7 +36,7 @@ def register_middlewares(app):
 
 
 def register_errors(app):
-    from pulasan.models.log_model import LogModel
+    from pulasan.utils.log_util import logger
     from pulasan.utils.tools import abort
 
     @app.errorhandler(HTTPException)
@@ -48,16 +48,15 @@ def register_errors(app):
 
     @app.errorhandler(Exception)
     async def global_exception_handler(error):
-        await LogModel().exception(error)
+        logger.exception(error)
         return abort(500)
 
 
 def register_blueprints(app):
-    from pulasan.urls import user_url, chat_url, admin_url
+    from pulasan.urls import user_url, chat_url
 
     app.register_blueprint(chat_url.chat_url)
     app.register_blueprint(user_url.user_url, url_prefix='/user')
-    app.register_blueprint(admin_url.admin_url, url_prefix='/admin')
 
 
 app = create_app()
