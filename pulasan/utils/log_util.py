@@ -1,10 +1,20 @@
 import sys
+from pathlib import Path
+
 from loguru import logger
+
+from pulasan.configs import settings
+
+log_dir = Path(settings.basedir).joinpath('logs')
+log_dir.mkdir(parents=True, exist_ok=True)
+
+access_path = log_dir.joinpath('access.log')  # 'logs/access.log'
+error_path = log_dir.joinpath('error.log')
 
 logger.remove()
 
 logger.add(
-    'logs/access.log',
+    access_path,
     rotation='10MB',
     format='{time:YYYY-MM-DD HH:mm:ss} - {level} - {message}',
     encoding='utf-8',
@@ -17,7 +27,7 @@ logger.add(
 )
 
 logger.add(
-    'logs/error.log',
+    error_path,
     rotation='10MB',  # 日志文件达到 10MB 时轮转
     format='{time:YYYY-MM-DD HH:mm:ss} - {level} - {message}',
     encoding='utf-8',
