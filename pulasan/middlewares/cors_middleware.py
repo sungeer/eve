@@ -17,13 +17,12 @@ class CorsMiddleware:
         self.allow_headers = allow_headers or ['Content-Type', 'Authorization']
         self.allow_credentials = allow_credentials
 
-    def init_app(self, app, _is_handlers_aout=True):
+    def init_app(self, app):
         self.app = app
-        if _is_handlers_aout:
-            self.register_handlers()
+        self.register_handlers()
         return self
 
-    async def _after_request(self, response):
+    def _set_cors_headers(self, response):
         origin = request.headers.get('Origin')
         if origin in self.allow_origins or '*' in self.allow_origins:
             response.headers['Access-Control-Allow-Origin'] = origin if '*' not in self.allow_origins else '*'
@@ -37,13 +36,12 @@ class CorsMiddleware:
         if request.method == 'OPTIONS':
             response = jsonify({'message': 'CORS preflight'})
             response.status_code = 204
-            response.headers['Access-Control-Allow-Origin'] = request.headers.get('Origin', '*')
-            response.headers['Access-Control-Allow-Methods'] = ', '.join(self.allow_methods)
-            response.headers['Access-Control-Allow-Headers'] = ', '.join(self.allow_headers)
-            if self.allow_credentials:
-                response.headers['Access-Control-Allow-Credentials'] = 'true'
-            return response
+            return self._set_cors_headers(response)
+        return None
+
+    async def _after_request(self, response):
+        return self._set_cors_headers(response)
 
     def register_handlers(self):
-        self.app.after_request(self._after_request)
         self.app.before_request(self._before_request)
+        self.app.after_request(self._after_request)
