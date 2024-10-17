@@ -5,13 +5,19 @@ from pulasan.configs import settings
 
 
 def create_app():
-    app = Quart('pulasan')
+    app = Quart(__name__)
 
+    register_extensions(app)
     register_events(app)
-    register_middlewares(app)
     register_errors(app)
     register_blueprints(app)
     return app
+
+
+def register_extensions(app):
+    from pulasan.utils import cors
+
+    cors.init_app(app)
 
 
 def register_events(app):
@@ -27,12 +33,6 @@ def register_events(app):
 
         from pulasan.utils import http_client
         await http_client.close_httpx()
-
-
-def register_middlewares(app):
-    from pulasan.middlewares import cors_middleware
-
-    cors_middleware.init_app(app)
 
 
 def register_errors(app):
