@@ -41,9 +41,7 @@ def register_errors(app):
 
     @app.errorhandler(HTTPException)
     async def http_exception_handler(error):
-        # error_code = getattr(error, 'code', 500)
-        # message = HTTP_STATUS_CODES.get(error_code, str(error))
-        # error_code = error.code
+        logger.opt(exception=True).warning(error)
         return abort(error.code)
 
     @app.errorhandler(Exception)

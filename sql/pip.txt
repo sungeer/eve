@@ -13,6 +13,7 @@ python -m pip install redis
 python -m pip install granian
 python -m pip install loguru
 python -m pip install quart-cors
+python -m pip install cerberus
 
 python -m pip install uvicorn
 python -m pip install gunicorn

@@ -17,3 +17,18 @@ class UserModel(BaseModel):
         user_info = await self.cursor.fetchone()
         await self.close()
         return user_info
+
+    async def get_user_by_id(self, user_id):
+        sql_str = '''
+            SELECT
+                id, name, phone, is_admin, created_time
+            FROM
+                users
+            WHERE
+                id = %s
+        '''
+        await self.conn()
+        await self.execute(sql_str, (user_id,))
+        user_info = await self.cursor.fetchone()
+        await self.close()
+        return user_info
