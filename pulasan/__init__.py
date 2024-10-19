@@ -2,6 +2,12 @@ from quart import Quart
 from werkzeug.exceptions import HTTPException
 
 from pulasan.configs import settings
+from pulasan.utils import cors, http_client
+from pulasan.utils.db_util import db
+from pulasan.utils.tools import abort, jsonify_exc
+from pulasan.utils.log_util import logger
+from pulasan.utils.errors import ValidationError
+from pulasan.urls import user_url, chat_url
 
 
 def create_app():
@@ -15,14 +21,10 @@ def create_app():
 
 
 def register_extensions(app):
-    from pulasan.utils import cors
-
     cors.init_app(app)
 
 
 def register_events(app):
-    from pulasan.utils.db_util import db
-
     @app.before_serving
     async def startup():
         await db.connect()
@@ -30,29 +32,27 @@ def register_events(app):
     @app.after_serving
     async def shutdown():
         await db.disconnect()
-
-        from pulasan.utils import http_client
         await http_client.close_httpx()
 
 
 def register_errors(app):
-    from pulasan.utils.log_util import logger
-    from pulasan.utils.tools import abort
+    @app.errorhandler(ValidationError)
+    async def validation_exception_handler(error):
+        logger.opt(exception=True).info(error)
+        return jsonify_exc(422)
 
     @app.errorhandler(HTTPException)
     async def http_exception_handler(error):
-        logger.opt(exception=True).warning(error)
-        return abort(error.code)
+        logger.opt(exception=True).info(error)
+        return jsonify_exc(error.code)  # jsonify_exc(error.code, error.description)
 
     @app.errorhandler(Exception)
     async def global_exception_handler(error):
         logger.exception(error)
-        return abort(500)
+        return jsonify_exc(500)
 
 
 def register_blueprints(app):
-    from pulasan.urls import user_url, chat_url
-
     app.register_blueprint(chat_url.chat_url)
     app.register_blueprint(user_url.user_url, url_prefix='/user')
 

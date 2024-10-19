@@ -6,6 +6,7 @@ from decimal import Decimal
 
 from quart import Response
 from werkzeug.http import HTTP_STATUS_CODES
+from werkzeug.exceptions import HTTPException, default_exceptions
 
 
 class BaseResponse:
@@ -34,6 +35,13 @@ class JsonExtendEncoder(json.JSONEncoder):
         return super().default(obj)
 
 
+class JsonExtendResponse(Response):
+
+    def __init__(self, response, **kwargs):
+        json_response = json.dumps(response, cls=JsonExtendEncoder).encode('utf-8')
+        super().__init__(json_response, mimetype='application/json', **kwargs)
+
+
 def jsonify(*args, **kwargs):
     if args and kwargs:
         raise TypeError('jsonify() behavior undefined when passed both args and kwargs')
@@ -44,10 +52,10 @@ def jsonify(*args, **kwargs):
     response = BaseResponse()
     response.data = content
     response = response.to_dict()
-    return Response(json.dumps(response, cls=JsonExtendEncoder), mimetype='application/json')
+    return JsonExtendResponse(response)
 
 
-def abort(error_code, message=None):
+def jsonify_exc(error_code, message=None):
     if not message:
         message = HTTP_STATUS_CODES.get(error_code)
     response = BaseResponse()
@@ -55,7 +63,12 @@ def abort(error_code, message=None):
     response.error_code = error_code
     response.message = message
     response = response.to_dict()
-    return Response(json.dumps(response, cls=JsonExtendEncoder), mimetype='application/json')
+    return JsonExtendResponse(response)
+
+
+def abort(error_code, message=None):
+    exception_type = default_exceptions.get(error_code)  # NotFound
+    raise exception_type(description=message)
 
 
 def dict_to_json(data):

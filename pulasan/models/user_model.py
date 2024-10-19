@@ -6,11 +6,11 @@ class UserModel(BaseModel):
     async def get_user_by_phone(self, phone_number):
         sql_str = '''
             SELECT
-                ID, Name, Phone, PasswordHash, IsAdmin, CreatedTime
+                id, name, phone, password_hash, is_admin, created_time
             FROM
                 users
             WHERE
-                Phone = %s
+                phone = %s
         '''
         await self.conn()
         await self.execute(sql_str, (phone_number,))
