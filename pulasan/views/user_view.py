@@ -1,4 +1,4 @@
-from quart import request
+from quart import request, Blueprint
 
 from pulasan.models.user_model import UserModel
 from pulasan.utils.tools import jsonify, abort
@@ -6,7 +6,10 @@ from pulasan.utils import jwt_util
 from pulasan.utils.schemas import access_token_schema
 from pulasan.utils.decorators import validate_request
 
+route = Blueprint('user', __name__)
 
+
+@route.post('/get-access-token')
 @validate_request(access_token_schema)
 async def get_access_token():
     body = await request.json
