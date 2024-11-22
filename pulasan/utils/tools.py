@@ -18,7 +18,13 @@ class BaseResponse:
         self.data = None
 
     def to_dict(self):
-        return self.__dict__
+        resp_dict = {
+            'status': self.status,
+            'error_code': self.error_code,
+            'message': self.message,
+            'data': self.data
+        }
+        return resp_dict
 
 
 class JsonExtendEncoder(json.JSONEncoder):
@@ -38,7 +44,7 @@ class JsonExtendEncoder(json.JSONEncoder):
 class JsonExtendResponse(Response):
 
     def __init__(self, response, **kwargs):
-        json_response = json.dumps(response, cls=JsonExtendEncoder).encode('utf-8')
+        json_response = json.dumps(response, cls=JsonExtendEncoder, ensure_ascii=False).encode('utf-8')
         super().__init__(json_response, mimetype='application/json', **kwargs)
 
 
@@ -74,11 +80,7 @@ def abort(error_code, message=None):
 def dict_to_json(data):
     if not data:
         data = {}
-    return json.dumps(data, cls=JsonExtendEncoder)
-
-
-def dict_to_json_ea(data=None):
-    return json.dumps(data, cls=JsonExtendEncoder, ensure_ascii=False, indent=4)
+    return json.dumps(data, cls=JsonExtendEncoder, ensure_ascii=False)
 
 
 def json_to_dict(json_data):
