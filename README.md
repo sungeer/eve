@@ -2,7 +2,7 @@
 
 *A async backend scaffold based on Quart.*
 
-> When it comes to the choice of an asynchronous framework, I would highly recommend Starlette. You might want to take a look at the scaffolding, which encompasses the best practices for Python asynchronous back-end development: *[viper](https://github.com/sungeer/pulasan)*.
+> When it comes to the choice of an asynchronous framework, I would highly recommend Starlette. You might want to take a look at the scaffolding, which encompasses the best practices for Python asynchronous back-end development: *[viper](https://github.com/sungeer/viper)*.
 
 ## Installation
 
