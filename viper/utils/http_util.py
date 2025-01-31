@@ -1,6 +1,6 @@
 import httpx
 
-from pulasan.configs import settings
+from viper.configs import settings
 
 limits = httpx.Limits(
     max_keepalive_connections=settings.httpx_pool_size,

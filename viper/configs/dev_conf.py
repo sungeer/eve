@@ -1,4 +1,4 @@
-from pulasan.configs.base_conf import BaseSettings
+from viper.configs.base_conf import BaseSettings
 
 
 class DevSettings(BaseSettings):

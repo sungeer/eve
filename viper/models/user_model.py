@@ -1,4 +1,4 @@
-from pulasan.models.base_model import BaseModel
+from viper.models.base_model import BaseModel
 
 
 class UserModel(BaseModel):

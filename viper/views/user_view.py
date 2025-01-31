@@ -1,10 +1,10 @@
 from quart import request, Blueprint
 
-from pulasan.models.user_model import UserModel
-from pulasan.utils.tools import jsonify, abort
-from pulasan.utils import jwt_util
-from pulasan.utils.schemas import access_token_schema
-from pulasan.utils.decorators import validate_request
+from viper.models.user_model import UserModel
+from viper.utils.tools import jsonify, abort
+from viper.utils import jwt_util
+from viper.utils.schemas import access_token_schema
+from viper.utils.decorators import validate_request
 
 route = Blueprint('user', __name__)
 

@@ -2,7 +2,7 @@ import os
 
 
 class BaseSettings:
-    app_name = 'pulasan'
+    app_name = 'viper'
 
     # os.path.abspath 将相对路径转换为绝对路径
     # os.path.dirname 当前脚本所在目录

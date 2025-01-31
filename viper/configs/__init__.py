@@ -2,8 +2,8 @@ import os
 
 from dotenv import load_dotenv
 
-from pulasan.configs.dev_conf import DevSettings
-from pulasan.configs.prod_conf import ProdSettings
+from viper.configs.dev_conf import DevSettings
+from viper.configs.prod_conf import ProdSettings
 
 config = {
     'dev': DevSettings,

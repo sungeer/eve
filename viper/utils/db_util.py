@@ -1,7 +1,7 @@
 import aiomysql
 
-from pulasan.configs import settings
-from pulasan.utils.cipher import cipher
+from viper.configs import settings
+from viper.utils.cipher import cipher
 
 
 class BaseDB:

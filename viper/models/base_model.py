@@ -1,4 +1,4 @@
-from pulasan.utils.db_util import db
+from viper.utils.db_util import db
 
 
 class BaseModel:

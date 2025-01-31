@@ -1,7 +1,7 @@
 from quart import Blueprint
 
-from pulasan.utils.tools import jsonify
-from pulasan.utils.log_util import logger
+from viper.utils.tools import jsonify
+from viper.utils.log_util import logger
 
 route = Blueprint('chat', __name__)
 

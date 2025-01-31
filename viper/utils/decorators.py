@@ -2,10 +2,10 @@ from functools import wraps
 
 from quart import request, g
 
-from pulasan.utils.tools import abort
-from pulasan.utils import jwt_util
-from pulasan.utils.schemas import User, validate_data
-from pulasan.models.user_model import UserModel
+from viper.utils.tools import abort
+from viper.utils import jwt_util
+from viper.utils.schemas import User, validate_data
+from viper.models.user_model import UserModel
 
 
 def auth_required(func):

@@ -1,6 +1,6 @@
 from cerberus import Validator
 
-from pulasan.utils.errors import ValidationError
+from viper.utils.errors import ValidationError
 
 
 class User:

@@ -3,7 +3,7 @@ from pathlib import Path
 
 from loguru import logger
 
-from pulasan.configs import settings
+from viper.configs import settings
 
 log_dir = Path(settings.basedir).joinpath('logs')
 log_dir.mkdir(parents=True, exist_ok=True)
