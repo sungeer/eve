@@ -4,6 +4,7 @@ from viper.core.settings import CONF
 from viper.core.extensions import register_extensions
 from viper.core.events import register_events
 from viper.core.errors import register_errors
+from viper.core.logging import register_logging
 from viper.core.blueprints import register_blueprints
 
 
@@ -15,6 +16,7 @@ def create_app():
     register_events(app)
     register_errors(app)
     register_blueprints(app)
+    register_logging(app)
     return app
 
 
