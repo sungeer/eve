@@ -1,5 +1,5 @@
-from kimi.models.base_model import BaseModel
-from kimi.utils.decorators import sync_to_async_db
+from eve.models.base_model import BaseModel
+from eve.utils.decorators import sync_to_async_db
 
 
 @sync_to_async_db

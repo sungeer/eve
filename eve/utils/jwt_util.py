@@ -5,7 +5,7 @@ import jwt  # python -m pip install pyjwt
 from jwt.exceptions import ExpiredSignatureError, InvalidTokenError
 from quart import current_app
 
-from kimi.utils.errors import TokenExpiredError, AuthenticationError
+from eve.utils.errors import TokenExpiredError, AuthenticationError
 
 config = current_app.config
 

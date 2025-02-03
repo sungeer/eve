@@ -1,4 +1,4 @@
-from kimi.utils.db_util import create_dbconn
+from eve.utils.db_util import create_dbconn
 
 
 class BaseModel:

@@ -1,4 +1,4 @@
-from kimi.utils import http_util
+from eve.utils import http_util
 
 
 def register_events(app):

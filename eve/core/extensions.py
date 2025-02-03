@@ -1,5 +1,5 @@
-from kimi.plus import cors
-from kimi.plus.db import Database
+from eve.plus import cors
+from eve.plus.db import Database
 
 db = Database()
 

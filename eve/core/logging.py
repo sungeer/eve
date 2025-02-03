@@ -1,6 +1,6 @@
 import logging
 
-from kimi.plus.logging import logger
+from eve.plus.logging import logger
 
 
 # 将 Loguru 配置为全局的日志处理器

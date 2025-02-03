@@ -1,6 +1,6 @@
 from quart import Blueprint, current_app
 
-from kimi.utils.resp_util import jsonify
+from eve.utils.resp_util import jsonify
 
 route = Blueprint('chat', __name__)
 

@@ -1,8 +1,8 @@
 from werkzeug.exceptions import HTTPException
 
-from kimi.utils.tools import jsonify_exc
-from kimi.utils.log_util import logger
-from kimi.utils.errors import ValidationError
+from eve.utils.tools import jsonify_exc
+from eve.utils.log_util import logger
+from eve.utils.errors import ValidationError
 
 
 def register_errors(app):

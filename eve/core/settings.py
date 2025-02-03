@@ -3,7 +3,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from kimi.utils.conf_util import ConfigDetector
+from eve.utils.conf_util import ConfigDetector
 
 CURRENT_DIR = Path(__file__).resolve()  # 当前文件 的 绝对路径
 BASE_DIR = CURRENT_DIR.parent.parent.parent

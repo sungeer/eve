@@ -1,7 +1,7 @@
 from functools import wraps
 
-from kimi.utils.resp_util import abort
-from kimi.utils.pools import run_in_thread_pool_db
+from eve.utils.resp_util import abort
+from eve.utils.pools import run_in_thread_pool_db
 
 
 def permission_required(permission_name):

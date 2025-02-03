@@ -1,7 +1,7 @@
 from werkzeug.http import HTTP_STATUS_CODES
 from werkzeug.exceptions import default_exceptions
 
-from kimi.utils.json_util import JsonExtendResponse
+from eve.utils.json_util import JsonExtendResponse
 
 
 class BaseResponse:

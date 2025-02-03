@@ -1,7 +1,7 @@
 import math
 import re
 
-from kimi.core.extensions import db
+from eve.core.extensions import db
 
 db_pool = db
 

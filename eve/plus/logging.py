@@ -3,7 +3,7 @@ from pathlib import Path
 
 from loguru import logger
 
-from kimi.core import settings
+from eve.core import settings
 
 log_dir = Path(settings.BASE_DIR) / 'logs'
 log_dir.mkdir(parents=True, exist_ok=True)

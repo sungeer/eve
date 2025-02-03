@@ -1,8 +1,8 @@
 from quart import request, Blueprint
 
-from kimi.models.user_model import UserModel
-from kimi.utils.resp_util import jsonify, abort
-from kimi.utils import jwt_util
+from eve.models.user_model import UserModel
+from eve.utils.resp_util import jsonify, abort
+from eve.utils import jwt_util
 
 route = Blueprint('user', __name__)
 
