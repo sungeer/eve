@@ -1,4 +1,4 @@
-# Kimi
+# Eve
 
 *A distributed task scheduling system based on Huey.*
 
@@ -6,8 +6,8 @@
 
 clone:
 ```
-$ git clone https://github.com/sungeer/krathon.git
-$ cd krathon
+$ git clone https://github.com/sungeer/eve.git
+$ cd eve
 ```
 create & activate virtual env then install dependency:
 
@@ -20,13 +20,13 @@ $ pip install -r requirements.txt
 
 run:
 ```
-$ granian --interface wsgi kimi:app
+$ granian --interface wsgi eve:app
 * Running on http://127.0.0.1:8000/
 ```
 
 run distributed scheduling:
 ```
-$ huey_consumer kimi.tasks.huey_instance.huey
+$ huey_consumer eve.tasks.huey_instance.huey
 ```
 
 ## License
