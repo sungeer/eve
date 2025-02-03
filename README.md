@@ -1,35 +1,13 @@
-# Eve
+# ChitChat
 
-*A distributed task scheduling system based on Huey.*
+This is the simple forum application written with Go for the book "Go Web Programming" from Manning Publication Co. The source code for this application is the basis for the Chapter 2 - Go ChitChat. 
 
-## Installation
+However the code is a reference and is not a 1 - 1 match with the code in the book. There are portions of the code that is more detailed in here than in Chapter 2 (which is a simplified version of the source code here).
 
-clone:
-```
-$ git clone https://github.com/sungeer/eve.git
-$ cd eve
-```
-create & activate virtual env then install dependency:
+Some differences include:
 
-with venv + pip:
-```
-$ python -m venv venv
-$ source venv/bin/activate  # use `venv\Scripts\activate` on Windows
-$ pip install -r requirements.txt
-```
-
-run:
-```
-$ granian --interface wsgi eve:app
-* Running on http://127.0.0.1:8000/
-```
-
-run distributed scheduling:
-```
-$ huey_consumer eve.tasks.huey_instance.huey
-```
-
-## License
-
-This project is licensed under the MIT License (see the
-[LICENSE](LICENSE) file for details).
+* This version of ChitChat is configurable with a `config.json` file
+* This version is able to log to a `chitchat.log` file
+* There are test files in this code
+* All structs are fully fleshed out (in the book chapter, they are only implied)
+* Some of the functions are placed as methods for the struct types instead of being a part of the package
